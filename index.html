@@ -8,6 +8,7 @@
 </head>
 <body> 
 <nav>
+    <!--right side of navbar  -->
 <div class="right">
     <ul>
         <h3>WeatherApp</h3>
@@ -17,14 +18,17 @@
                 <li><a href="#">Get Update</a></li>
     </ul>
 </div>
+    <!-- left side of navbar -->
 <div class="left">
     <input type="text" placeholder="Search Weather" id="type">
     <button class="btn">Search</button>
 </div>
 </nav>
+    <!-- main area for weather detials -->
 <main>
     <h1 class="header">Weather for the <span id="cityname"></span></h1>
     <div class="container">
+              <!--first temperature box  -->
         <div class="box">
                          <ol class="box-list">
             <h2>Temperature <strong><span id="temp"></span></strong></h2>
@@ -34,6 +38,7 @@
     <li> UV Index IS <strong><span id="uvindex"></span></strong>  </li>
             </ol>
             </div>
+        <!-- humidity box -->
             <div class="box1">
                          <ol class="box1-list">
             <h2>Atmosphere </h2>
@@ -43,6 +48,7 @@
      <li>Pressure is <strong><span id="pressure"></span></strong></li>
             </ol>
             </div>
+        <!-- sky box -->
             <div class="box2">
                          <ol class="box2-list">
             <h2>Sun & Clouds </h2>
@@ -56,7 +62,7 @@
      <!-- loading spanner animation for cool website effect took time to make -->
 <div id="loader" class="loader-container" style="display: none;">
     <div class="spinner"></div>
-    <p>Fetching weather details...</p>
+    <p>Fetching weather details please wait...</p>
 </div>
 </main>   
 <script src="weather2.js"></script>
