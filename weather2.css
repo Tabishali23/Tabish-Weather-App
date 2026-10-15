@@ -1,163 +1,264 @@
-* {
+/* universal selector and zero m and p */
+*{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+
+/* globall for fast and easy accesss */
+:root {
+    --accent-glow: #00d2ff;
+    --accent-gradient: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #38bdf8 0%, #3b82f6 100%);
+    --glass-bg: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-nav-bg: rgba(15, 23, 42, 0.25);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --card-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.35);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 body {
-    background:url(elham-abdi-wWy5vx-Q-vI-unsplash.jpg);
+    background: linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.55)), url('elham-abdi-wWy5vx-Q-vI-unsplash.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     width: 100vw;
     min-height: 100vh;
-    color: #ffffff;
+    color: var(--text-primary);
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: scroll;
     overflow-x: hidden;
 }
 
-
+/* the nav bar which has right and left sectuon */
 nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 1rem 1.5rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 10px 10px 22px rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2);
- 
+    padding: 1.2rem 2rem;
+    background-color: var(--glass-nav-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: background-color 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+}
+#nav.scrolled {
+    padding: 0.9rem 2rem; /* Shrinks the height slightly for a premium feel */
+    background-color: rgba(15, 23, 42, 0.45); /* Smooth dark tint backdrop */
+    backdrop-filter: blur(16px); /* Clean glassmorphism pops into place */
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
+/* right section heree */
 .right {
- display: flex;
+    display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 3rem;
 }
+
+.right h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #ffffff 50%, rgba(255, 255, 255, 0.6));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .right ul {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 2rem;
-    text-decoration: none;
     list-style: none;
-    padding: 0.5rem;
-}
-ul li:hover {
-    scale: 104%;
-     color: #e0e0e0;
-     transition: 0.5s all;
 }
 
-ul li:active {
-    scale: 96%;
-    color: #e0e0e0;
-    transition: 0.3s all;
+ul li {
+    position: relative;
 }
-.right h3 {
-    font-size: 1.6rem;
-  margin-bottom: 10px;
-}
+
 ul a {
-text-decoration: none;
-color: #fff;
-font-size: 1.05rem;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    transition: var(--transition-smooth);
+    padding: 0.4rem 0;
+}
+/* the undline effect when using hoveer effect */
+ul li::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-glow);
+    transition: var(--transition-smooth);
+    border-radius: 2px;
 }
 
-.left {
-    display: flex;
-    gap: 1rem;
-    padding: 1rem;
-}
-
-.left input {
-    padding: 0.5rem 2rem;
-    border-radius: 20px;
-    outline: none;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.15);
-     color: #ffffff;
-     max-width: 320px;
-     max-height: 45px;
-}
-.left input:hover {
-    transform: scale(102%);
-    box-shadow: 12px 14px 22px rgba(244, 255, 255, 0.1);
-}
-.left input:focus {
-    transform: scale(99%);
-    box-shadow: 12px 14px 22px rgba(244, 200, 255, 0.1)
-}
-.left input::placeholder {
-    color: #fff;
-    font-size: 14px;
-    text-align: left;
-}
-
-.btn {
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
-     width: 42px;
-    height: 42px;
-    background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-     color: #ffffff;
-    cursor: pointer;
-        transition: all 0.2s ease;
-}
-.btn:hover{
-    transform: scale(1.05);
-    background: linear-gradient(135deg, #38bdf8 0%, #3b82f6 100%);
-}
-.btn:active {
-    transform: scale(00.95);
-    background: linear-gradient(135deg, #38bdf8 0%, #3b82f6 100%);
-}
-.header {
-    text-align: center;
-    margin-top: 3rem;
-    opacity: 0.9;
-}
-
-.container {
-    display: grid;
-  grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-top: 3rem;
+ul li:hover::after {
     width: 100%;
 }
 
-.box,.box1,.box2 {
+ul li:hover a {
+    color: var(--text-primary);
+    text-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+}
+/* search region of navbar the left section */
+.left {
     display: flex;
-    flex-direction: row;
-        box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.25);
-       border-radius: 24px;
-       backdrop-filter: blur(10px);
-       -webkit-background-filter:blur(16px);
-       padding: 2rem 2.5rem;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.08); 
-            transition: transform 0.5s ease, box-shadow 0.3s ease;
-            transition: transform 1s ease scale; 
+    align-items: center;
+    gap: 0.8rem;
+}
+
+
+.left input {
+    padding: 0.65rem 1.4rem;
+    border-radius: 24px;
+    outline: none;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    width: 240px;
+    font-size: 0.9rem;
+    transition: var(--transition-smooth);
+}
+
+.left input:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.left input:focus {
+    background: rgba(15, 23, 42, 0.4);
+    border-color: var(--accent-glow);
+    box-shadow: 0 0 0 4px rgba(0, 210, 255, 0.15);
+    width: 280px; 
+    outline: none;
+}
+
+.left input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.btn {
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.25);
+    width: 50px;
+    height: 50px;
+    background: var(--accent-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+}
+
+.btn:hover {
+    background: var(--accent-gradient-hover);
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+}
+
+.btn:active {
+    transform: translateY(0) scale(0.96);
+}
+
+/* the toggle buton style for the fahrenhiet to celsius  */
+.toggle-btn {
+    padding: 0.55rem 1.2rem;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    transition: var(--transition-smooth);
+}
+
+.toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--accent-glow);
+    box-shadow: 0 0 12px rgba(0, 210, 255, 0.2);
+}
+
+.toggle-btn:active {
+    transform: scale(0.96);
+}
+
+/* city name country name and the temperature showcase */
+.header {
+    text-align: center;
+    margin-top: 3.5rem;
+}
+
+#cityname {
+    font-size: 2.4rem;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+#temp {
+    font-size: 4.5rem;
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-top: 0.2rem;
+    background: linear-gradient(135deg, #ffffff 60%, var(--accent-glow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 25px rgba(0, 210, 255, 0.15);
+}
+
+/* main area of website */
+.container {
+    display: grid;
+   grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin:  3rem auto ;
+    width: 90%;
+    max-width: 1240px;
+    padding-bottom: 4rem;
+}
+
+.box, .box1, .box2 {
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--card-shadow);
+    border-radius: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 4rem;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg); 
+    transition: var(--transition-smooth);
 }
 
 .box:hover, .box1:hover, .box2:hover {
-    transform: translateY(-8px);
-    border-color: rgba(0, 210, 255, 0.4);
-    box-shadow: 0 16px 45px 0 rgba(0, 210, 255, 0.15);
-}
-.box:active, .box1:active, .box2:active {
-    transform: translateY(-8px);
-    border-color: rgba(0, 210, 255, 0.4);
-    box-shadow: 0 16px 45px 0 rgba(0, 210, 255, 0.15);
-    transform:scale(96%);
+    transform: translateY(-6px);
+    border-color: rgba(0, 210, 255, 0.35);
+    box-shadow: 0 20px 50px 0 rgba(0, 210, 255, 0.15);
 }
 
 .box-list, .box1-list, .box2-list {
@@ -168,73 +269,178 @@ font-size: 1.05rem;
     gap: 1.2rem;
 }
 
-.box-list h2, .box1-list h2, .box2-list h2 {
-    font-size: 1.5rem;
+.box-list h2, .box1-list h2, .box2-list h2, .forecast-card h2 {
+    font-size: 1.25rem;
     font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     margin-bottom: 0.5rem;
-    color: #ffffff;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 0.8rem;
     text-align: center;
 }
 
-/* * loading spanner  */ 
-/* Spinner Container setup */
+.box-list li, .box1-list li, .box2-list li {
+    font-size: 1.05rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-secondary);
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.5rem;
+}
+
+.box-list li:last-child, .box1-list li:last-child, .box2-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.box-list li span, .box1-list li span, .box2-list li span {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+
+/* forecasting for 3 days forecast */
+#forecast-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.7rem;
+    margin-top: 0.5rem;
+}
+
+.forecast-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 1.6rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: var(--transition-smooth);
+}
+
+.forecast-row:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: scale(1.01);
+}
+
+.forecast-date {
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.forecast-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.forecast-condition {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: capitalize;
+}
+
+.forecast-icon {
+    width: 36px;
+    height: 36px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+}
+
+.forecast-temp-range {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--accent-glow);
+    min-width: 120px;
+    text-align: right;
+}
+
+/* laoder for the fetching data animation */
 .loader-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 2rem auto;
-    gap: 1rem;
+    margin: 5rem auto;
+    gap: 1.2rem;
 }
 
-/* The Animated Ring */
 .spinner {
     width: 50px;
     height: 50px;
-    border: 5px solid rgba(255, 255, 255, 0.1);
-    border-top: 5px solid #00d2ff; /* Matches your accent theme color */
+    border: 4px solid rgba(255, 255, 255, 0.08);
+    border-top: 4px solid var(--accent-glow);
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: spin 0.85s linear infinite;
+    filter: drop-shadow(0 0 8px rgba(0, 210, 255, 0.3));
 }
 
 .loader-container p {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.95rem;
-    font-weight: 500;
+color: var(--text-secondary);
+font-size: 0.95rem;
+letter-spacing: 0.5px;
 }
-
-/* Rotation keyframes */
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
 }
 
-/* media queries */
-@media (max-width: 992px) {
-    .container {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
 
+/* responsive design for mobile tablets and bigeer screens */
+@media (max-width: 1024px) {
+.container {
+grid-template-columns: repeat(2, 1fr);
+gap: 1.5rem;
+width: 92%;
+}
+}
 @media (max-width: 768px) {
-    .nav {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
-    }
-    .right ul {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    .right {
-        width: 100%;
-    }
-    .left input {
-        width: 100%;
-    }
-    .container {
-        grid-template-columns: 1fr;
-    }
+nav {
+flex-direction: column;
+gap: 1.2rem;
+padding: 1.2rem;
 }
+.right {
+width: 100%;
+flex-direction: column;
+gap: 1rem;
+text-align: center;
+}
+.right ul {
+gap: 1.5rem;
+}
+.left {
+width: 100%;
+justify-content: center;
+gap: 0.6rem;
+}
+.left input {
+width: 60vw;
+}
+.left input:focus {
+width: 65vw;
+}
+.container {
+grid-template-columns: 1fr;
+gap: 1.2rem;
+}
+#cityname { font-size: 1.8rem; }
+#temp { font-size: 3.2rem; }
+.forecast-row {
+padding: 0.8rem 1rem;
+}
+.forecast-info {
+gap: 0.8rem;
+}
+.forecast-condition {
+display: none; 
+}
+}
+
+
+/* completey working css   */
