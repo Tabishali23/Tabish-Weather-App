@@ -3,68 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather</title>
+    <title>Weather App</title>
     <link rel="stylesheet" href="weather2.css">
 </head>
-<body> 
-<nav>
-    <!--right side of navbar  -->
-<div class="right">
-    <ul>
-        <h3>WeatherApp</h3>
-        <li><a href="#">Learn More</a></li>
+<body>
+    <nav>
+        <div class="right">
+            <h3>Weather App</h3>
+            <ul>
+                <li><a href="#">Learn More</a></li>
                 <li><a href="#">User Guide</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="#">Get Update</a></li>
-    </ul>
-</div>
-    <!-- left side of navbar -->
-<div class="left">
-    <input type="text" placeholder="Search Weather" id="type">
-    <button class="btn">Search</button>
-</div>
-</nav>
-    <!-- main area for weather detials -->
-<main>
-    <h1 class="header">Weather for the <span id="cityname"></span></h1>
-    <div class="container">
-              <!--first temperature box  -->
-        <div class="box">
-                         <ol class="box-list">
-            <h2>Temperature <strong><span id="temp"></span></strong></h2>
-    <li>Min Temp is <strong><span id="mintemp"></span></strong>  </li>
-    <li> Max Temp is  <strong><span id="maxtemp"></span></strong></li>
-    <li> Feels like <strong><span id="feellike"></span></strong> </li>
-    <li> UV Index IS <strong><span id="uvindex"></span></strong>  </li>
-            </ol>
-            </div>
-        <!-- humidity box -->
-            <div class="box1">
-                         <ol class="box1-list">
-            <h2>Atmosphere </h2>
-    <li>Humidity <strong><span id="humid"></span></strong>  </li>
-    <li> Wind Speed  <span id="wspeed"></span></li>
-    <li> Wind Direction <strong><span id="wdir"></span></strong> </li>
-     <li>Pressure is <strong><span id="pressure"></span></strong></li>
-            </ol>
-            </div>
-        <!-- sky box -->
-            <div class="box2">
-                         <ol class="box2-list">
-            <h2>Sun & Clouds </h2>
-    <li>Cloud Coverage  <strong><span id="ccover"></span></strong>  </li>
-    <li> Sunrise   <strong><span id="srise"></span></strong></li>
-    <li> Sunset   <strong><span id="sset"></span></strong> </li>
-    <li>Visibility is <strong><span id="visibility"></span></strong></li>
-            </ol>
+            </ul>
         </div>
-    </div>
-     <!-- loading spanner animation for cool website effect took time to make -->
-<div id="loader" class="loader-container" style="display: none;">
-    <div class="spinner"></div>
-    <p>Fetching weather details please wait...</p>
-</div>
-</main>   
-<script src="weather2.js"></script>
+        <div class="left">
+            <!-- Unit Switcher Toggle Button -->
+            <button id="unit-toggle" class="toggle-btn" data-unit="metric">Switch to °F</button>
+            <input type="text" placeholder="Search Weather" id="type">
+            <button class="btn">Search</button>
+        </div>
+    </nav>
+
+    <main>
+        <h1 class="header">Weather for <span id="cityname">Loading...</span></h1>
+        <h1 id="temp" style="text-align: center; font-size: 3.5rem; color: #00d2ff; margin-top: 1rem;">--</h1>
+
+        <!-- Loader Container Spanner -->
+        <div id="loader" class="loader-container">
+            <div class="spinner"></div>
+            <p>Fetching weather details...</p>
+        </div>
+
+        <div class="container" style="display: none;">
+            <!-- Temperature Card -->
+            <div class="box">
+                <ol class="box-list">
+                    <h2>Temperature</h2>
+                    <li>Min Temp  <strong><span id="mintemp">--</span></strong></li>
+                    <li>Max Temp  <strong><span id="maxtemp">--</span></strong></li>
+                    <li>Feels Like  <strong><span id="feellike">--</span></strong></li>
+                    <li>UV Index  <strong><span id="uvindex">--</span></strong></li>
+                </ol>
+            </div>
+
+            <!-- Atmosphere Card -->
+            <div class="box1">
+                <ol class="box1-list">
+                    <h2>Atmosphere </h2>
+                    <li>Humidity  <strong><span id="humid">--</span></strong></li>
+                    <li>Wind Speed  <strong><span id="wspeed">--</span></strong></li>
+                    <li>Wind Direction  <strong><span id="wdir">--</span></strong></li>
+                    <li>Pressure  <strong><span id="pressure">--</span></strong></li>
+                </ol>
+            </div>
+
+            <!-- Sun & Clouds Card -->
+            <div class="box2">
+                <ol class="box2-list">
+                    <h2>SKY</h2>
+                    <li>Cloud Coverage: <strong><span id="ccover">--</span></strong></li>
+                    <li>Sunrise  <strong><span id="srise">--</span></strong></li>
+                    <li>Sunset <strong><span id="sset">--</span></strong></li>
+                    <li>Visibility <strong><span id="visibility">--</span></strong></li>
+                </ol>
+            </div>
+
+            <!-- 3-Day Extended Forecast Container Block -->
+            <div class="box forecast-card" style="grid-column: 1 / -1; display: flex; flex-direction: column;">
+                <h2>3-Day Extended Forecast</h2>
+                <div id="forecast-container">
+<!-- here java scritp makes the element  -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="weather2.js"></script>
 </body>
 </html>
