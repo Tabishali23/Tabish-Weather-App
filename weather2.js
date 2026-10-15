@@ -1,10 +1,13 @@
-// access required varible 
-const apiKey = "febd0e70c35a4b4386a145749260710";
-const spanner = document.querySelector("#loader");
+// styling elements selections
+const loader = document.getElementById("loader"); 
 const searchBtn = document.querySelector(".btn");
 const cityInput = document.querySelector("#type");
 const cityHeader = document.querySelector("#cityname");
 const weatherContainer = document.querySelector(".container"); 
+const navbarElement = document.querySelector("nav");
+
+
+// selection for the api key 
 const temp = document.getElementById("temp");
 const minTemp = document.getElementById("mintemp");
 const maxTemp = document.getElementById("maxtemp");
@@ -17,92 +20,229 @@ const sunrise = document.getElementById("srise");
 const sunset = document.getElementById("sset");
 const forecastContainer = document.getElementById("forecast-container");
 const uvidx = document.getElementById("uvindex");
-const body = document.querySelector("body");
+const pressure = document.getElementById("pressure");
+const visibility = document.getElementById("visibility");
+const unitToggle = document.getElementById("unit-toggle");
 
 
 
-// async function to fetch data so website doesnt stops and better than promises and callbacks
-async function  fetchWeather(city) {
-    if(!city)  return;
+// global required things 
+const apiKey = "febd0e70c35a4b4386a145749260710";
+let currentUnitSystem = "metric"; // the tooggle buttton is hereee
+let cachedWeatherData = null;     
 
-    const URL =`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${encodeURIComponent(city)}&days=3&aqi=no&alerts=no`;
+
+//================================
+//  the async function is used here
+// ========================================
+
+
+
+async function fetchWeather(city) {
+    if (!city) return;
+
+    
+// getting the api 
+
+
+    const URL = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${encodeURIComponent(city)}&days=3&aqi=no&alerts=no`;
+    
     try {
-         spanner.style.display = "flex";
+        loader.style.display = "flex";
         weatherContainer.style.display = "none";
-          const response = await fetch(URL);
-        if (!response.ok) throw new Error("City not found");
-          const data = await response.json();
+        
+        const response = await fetch(URL);
+        if (!response.ok) throw new Error("no response from the server.");
+        
+        const data = await response.json();
+        cachedWeatherData = data; 
+        
         updateUI(data);
-                weatherContainer.style.display = "grid";
+        weatherContainer.style.display = "grid";
     } catch (error) {
-        console.log("failed to fetch data")
-        window.alert("try spelling or your data speed");
+        console.error("Area exception:", error);
+        window.alert("Could not update weather. Please check spelling or your internet connection for more help contact .");
     } finally {
         loader.style.display = "none";
     }
 }
 
-// this fuction is essential for upgrading the ui data
-function updateUI (data) {
-    const current = data.current;
-     const dayData = data.forecast.forecastday[0].day;
-    const astroData = data.forecast.forecastday[0].astro;
 
 
-    // city name and temperature box population
-    cityHeader.textContent = `${data.location.name},${data.location.country}`,
-    temp.textContent =  `${Math.round(current.temp_c)}°C`;
-    minTemp.textContent = `${Math.round(dayData.mintemp_c)}°C`;
-    maxTemp.textContent = `${Math.round(dayData.maxtemp_c)}°C`;
-    feelLike.textContent = `${Math.round(current.feelslike_c)}°C`;
-    uvidx.textContent = `${current.uv}`
-    
-
-    // atmoshepere box population
-    humidity.textContent = `${current.humidity}%`;
-    windSpeed.textContent = `${current.wind_kph}km/h`;
-    windDirection.textContent =`${current.wind_dir}`;
-    pressure.textContent = `${data.current.pressure_mb} hPa`;
+// ====
+// the ultimate background image changer
+// ====
 
 
-    // sun and clouds box population
-    cloudCover.textContent = `${current.cloud}%`
-    sunrise.textContent = astroData.sunrise;
-     sunset.textContent = astroData.sunset;
-     visibility.textContent = `${data.current.vis_km} km`;
 
+// changes image based on cloud coverage
+function updateBackground(cloudValue) {
+    let imageUrl = "";
+
+    if (cloudValue <= 20) {
+        imageUrl = "sunny.jpg"; // for sunny 
+    } else if (cloudValue > 20 && cloudValue <= 50) {
+        imageUrl = "partly.jpg"; // for partly cloudy
+    } else if (cloudValue > 50 && cloudValue <= 80) {
+        imageUrl = "mostly.jpg"; // for mostly cloudy
+    } else {
+        imageUrl = "rainy.jpg"; // for rainy best picture
+    }
+    document.body.style.backgroundImage = `linear-gradient(rgba(10, 15, 30, 0.5), rgba(10, 15, 30, 0.5)), url('${imageUrl}')`;
 }
-// event listener for button
+
+// =========
+// the data updater dynamic data updating through here.
+// ==============
+
+
+function updateUI(data) {
+    const current = data.current;
+    const location = data.location;
+    const forecastDayList = data.forecast.forecastday;
+
+
+    // uding index 0 for todays dat fetching
+    const dayData = forecastDayList[0].day;
+    const astroData = forecastDayList[0].astro;
+
+    const isMetric = currentUnitSystem === "metric";
+
+    // the header text
+    cityHeader.textContent = `${location.name}, ${location.country}`;
+
+
+
+    //  the toggler and dynamic updater
+    if (isMetric) {
+        temp.textContent = `${Math.round(current.temp_c)}°C`;
+        minTemp.textContent = `${Math.round(dayData.mintemp_c)}°C`;
+        maxTemp.textContent = `${Math.round(dayData.maxtemp_c)}°C`;
+        feelLike.textContent = `${Math.round(current.feelslike_c)}°C`;
+        windSpeed.textContent = `${current.wind_kph} km/h`;
+        visibility.textContent = `${current.vis_km} km`;
+    } else {
+        temp.textContent = `${Math.round(current.temp_f)}°F`;
+        minTemp.textContent = `${Math.round(dayData.mintemp_f)}°F`;
+        maxTemp.textContent = `${Math.round(dayData.maxtemp_f)}°F`;
+        feelLike.textContent = `${Math.round(current.feelslike_f)}°F`;
+        windSpeed.textContent = `${current.wind_mph} mph`;
+        visibility.textContent = `${current.vis_miles} miles`;
+    }
+
+
+    //static atomsphere the one that doesnt change wether metric or other
+    uvidx.textContent = current.uv;
+    humidity.textContent = `${current.humidity}%`;
+    windDirection.textContent = current.wind_dir;
+    pressure.textContent = `${current.pressure_mb} hPa`;
+
+// same but for the sky
+    cloudCover.textContent = `${current.cloud}%`;
+    sunrise.textContent = astroData.sunrise;
+    sunset.textContent = astroData.sunset;
+    updateBackground(current.cloud);
+
+ 
+
+    // ======
+    // the next three days forecast uses javascript to create elemments
+    // ======
+    if (forecastContainer) {
+        forecastContainer.innerHTML = "";
+        
+        forecastDayList.forEach(dayIndex => {
+            const dateObj = new Date(dayIndex.date);
+            const displayDate = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            
+// getting it dynamiclly for both matric and imperil
+            const fMin = isMetric ? `${Math.round(dayIndex.day.mintemp_c)}°C` : `${Math.round(dayIndex.day.mintemp_f)}°F`;
+            const fMax = isMetric ? `${Math.round(dayIndex.day.maxtemp_c)}°C` : `${Math.round(dayIndex.day.maxtemp_f)}°F`;
+
+            const forecastRow = document.createElement("div");
+            forecastRow.className = "forecast-row";
+            
+            forecastRow.innerHTML = `
+                <span class="forecast-date">${displayDate}</span>
+                <div class="forecast-info">
+                    <img class="forecast-icon" src="https:${dayIndex.day.condition.icon}" alt="weather-status">
+                    <span class="forecast-condition">${dayIndex.day.condition.text}</span>
+                    <span class="forecast-temp-range">⬇️ ${fMin} / ⬆️ ${fMax}</span>
+                </div>
+            `;
+            forecastContainer.appendChild(forecastRow);
+        });
+    }
+}
+
+
+
+//  now the event lostener
 searchBtn.addEventListener("click", () => {
     fetchWeather(cityInput.value.trim());
 });
 
-// event listener for input 
-cityInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
+
+// input field waiter
+cityInput.addEventListener("keypress", (eventObject) => {
+    if (eventObject.key === "Enter") {
         fetchWeather(cityInput.value.trim());
     }
 });
 
-
-// extra feature for close location weather good feature
-window.addEventListener("load", () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const query = `${position.coords.latitude},${position.coords.longitude}`;
-      fetchWeather(query); 
+//  event listenerr for the metric and the imperial
+if (unitToggle) {
+    unitToggle.addEventListener("click", () => {
+        if (currentUnitSystem === "metric") {
+            currentUnitSystem = "imperial";
+            unitToggle.textContent = "Switch to °C";
+        } else {
+            currentUnitSystem = "metric";
+            unitToggle.textContent = "Switch to °F";
+        }
+        // Immediately render modifications
+        if (cachedWeatherData) {
+            updateUI(cachedWeatherData);
+        }
     });
-  }
+}
+
+
+
+// beautiful scroll animation
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 20) {
+        navbarElement.classList.add("scrolled");
+    } else {
+        navbarElement.classList.remove("scrolled");
+    }
 });
 
-// extra feature auto location area weather addded done.
-// to add next 3 days weather not done.
-// to add switch between fahrenhiet mph and celcius and kph not done.
+
+//  starting area weather
+window.addEventListener("load", () => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const queryCoordinatesString = `${pos.coords.latitude},${pos.coords.longitude}`;
+                fetchWeather(queryCoordinatesString);
+            },
+            () => {
+// if acces bloacked then
+                fetchWeather("Gilgit");
+            }
+        );
+    } else {
+        fetchWeather("Gilgit");
+    }
+});
 
 
+// to do 
 
-
-
-
-
+// add a toggle =====   done
+// change bg based on cloud ========= done
+// show forecast =========== done 
+// animation when loading ========= done
 
