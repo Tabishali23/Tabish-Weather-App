@@ -27,7 +27,7 @@ async function  fetchWeather(city) {
 
     const URL =`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${encodeURIComponent(city)}&days=3&aqi=no&alerts=no`;
     try {
-         loader.style.display = "flex";
+         spanner.style.display = "flex";
         weatherContainer.style.display = "none";
           const response = await fetch(URL);
         if (!response.ok) throw new Error("City not found");
